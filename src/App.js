@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import firebase from './firebase.js';
 // import WatchList from './WatchList.js';
+import UserListCard from './UserListCard.js';
 
 
 
-// // how are you appending the username to your page, given that we don't use traditional vanilla JS DOM methods in React? (Perhaps you can use state here again? If username is true or isn't empty - your choice what value you wish to check for - show an element with that value; if not, show nothing or "Create your watchlist" prompt
+// // how are you appending the username to your page, given that we don't use traditional vanilla JS DOM methods in React? (Perhaps you can use state here again? 
+// If username is true, show an element with that value; if not, show nothing or "Create your watchlist" prompt
 
 // what is the data structure for the showInput state ? users will be adding up to 5 shows, correct ? How are these 5 shows being saved - AKA structured - within state so you can:
     // a) easily render them within the ListItems component
@@ -22,111 +24,121 @@ const dbRef = firebase.database().ref('/users');
 
 function App() {
   
-  const [ shows, setShows ] = useState([]);
+  // state for userName
   const [ userName, setUserName ] = useState(false);
+  //state for whether the user is logged in or not
   const [ loggedIn, setLoggedIn ] = useState(false);
-
-
-
-
-    // when user "logs in" the database will be queried to check for that name 
-    // if the username exsits, show their picks and the ability to add to them, else, just show the app interface. 
-
-  useEffect(
-    () => {
-      // setShows(['breaking bad', 'south park', 'threes company']);
-      // everytime the add button is clicked:
-        //  setShows is updated
-        // 
-      // const userWatchList = {
-      //   user: 
-      // };
-
-      const newUser = firebase.database().ref();
-      // searches the db for value changes
-      newUser.on('value', (response) => {
-        const data = response.val();
-        console.log(data)
-      })
-      // console.log(newUser);
-      // console.log(dbRef);
-    }, 
-    [] //<--- make this dependancy array depend on the add button
-  )
-
+  // state for the array of shows
+  const [ shows, setShows ] = useState([]);
+  // const [ dbShows, setDbShows ] = useState([]);
+  // state for the users choice input
+  const [ showInput, setShowInput ] = useState('');
+//state for the done button
+  const [ done, setDone ] = useState(false);
   
-  // on click of the ADD button
-  // this must happen everytime the user inputs a new show into the search field 
+  // when user "logs in" the database will be queried to check for that name 
+  // if the username exsits, show their picks and the ability to add to them, else, just show the app interface. 
 
 
-  //this is me trying to query the database to see if the name exists
+
+  //this is me trying to query the database to add user cards on page load
+useEffect(
+    () => {
+      dbRef.on('value', (snapshot) => {
+      const data = snapshot.val();
+      for (let key in data) {
+        // loop through database go into every object and extract key values
+        console.log(data[key]);
+          // new ref point using random key number
+      } 
+    })
+  }
+)
+
+  //printing new user Card
   useEffect(
     () => {
-      dbRef.on('value', (response) => {
-        const data = response.val();
+     
+      dbRef.on('value', (snapshot) => {
+        const data = snapshot.val();
         // console.log(data)
+        let dbShows = [];
         for (let key in data) {
+          // loop through database, if the userName matches, go into that object
           if (userName === data[key].userName) {
-            console.log(data[key].shows); // gives me the shows array
+            let currentDbRef = firebase.database().ref(`users/${key}`); // new ref 
+            // console.log(key); // gives me the shows array
+            //the idea as to query the database so that users can bring up their lists 
+            // point using random key number
+            currentDbRef.on('value', (snapshot) => {
+              const currentData = snapshot.val();
+              // console.log(currentData);
+              dbShows = currentData.shows;
+              // console.log(dbShows)
+            })
 
           } 
         }
-      })
-    },
-    [loggedIn]
-  )
 
-  // this is me trying to  figure out how to retrieve the data from the database to put it on the page. 
-  useEffect(
-    () => {
-      dbRef.on('value', (response) => {
-        let pageArray = [];
-        const data = response.val();
-        // console.log(data)
-        for (let key in data) {
-          pageArray = data[key].shows;
-          
+        if (done) {
+          // trying to access the shows from the database rather than the local array
+          setShows(dbShows);
+          console.log('this one', shows);
+          // console.log('it is done');
         }
       })
+      
     },
     []
   )
-    
-  const handleAddButton = (event) => {
-    // event.preventDefault();
-    // this will handle what the add button does:
-      // store new show in database
 
     
+//USER CHOICE INPUT HANDLERS -------------
+  // user show choice change handler
+  const handleNewChoice = (event) => {
+    let currentChoice = event.target.value;
+    setShowInput(currentChoice);
+    // console.log(currentChoice);
   }
+  // everytime the add button is clicked:
+      //  setShows is updated
+  const handleAddClick = () => {
+    
+      // update shows array 
+    const newShow = shows.concat(showInput);
+    setShows(newShow); 
 
-  const handleNameChange = (event) => {
-    let currentUser = event.target.value;
-    setUserName(currentUser);
-    console.log(currentUser);
-  }
-
-
-  const handleInputChange = (event) => {
-    let showChoice = event.target.value;
-
-    setShows([])
-  }
-
-
-  const handleLogin = () => {
-    setLoggedIn(true);
-    // handle the name appending to the page
+    console.log(newShow); // gives me all entries. why?
+    // console.log(shows); // doesnt give me the most current entry. why?
+    setShowInput('')
   }
 
   
-  const handleClick = () => {  
+  // done button handler
+  const handleDoneClick = (event) => {  
+    event.preventDefault();
     // console.log(userProfile);
-    const userObject = firebase.database().ref('/users');
-    userObject.push({ userName, shows });
-    // as an object with an array, gives me obj { name: zach, ksn89jckjnj32knjn: [ tv shows ]} not ideal
-
+    dbRef.push({ userName, shows });
+    setDone(true);
+    setLoggedIn(false);
+    // this give users/jdhfdkajaj/shows+userName as siblings
   }
+  
+  // USERNAME CHANGE/LOGIN CLICK HANDLERS -------
+  // username change handler
+  const handleNameChange = (event) => {
+    let currentUser = event.target.value;
+    setUserName(currentUser);
+    // console.log(currentUser);
+  }
+  // login button handler
+  const handleLoginClick = () => {
+    setDone(false);
+    setLoggedIn(true);
+    console.log(userName);
+    // handle the name appending to the page
+  }
+
 
   return (
     <div className="App">
@@ -140,24 +152,37 @@ function App() {
         value={userName} */}
         <input type="text" id="username" placeholder="Type your name here" onChange={handleNameChange}/>
         {/* onCLick = function which sets the state of Login to true. this renders the user-choice input on the screen and hides this form */}
-        <button className="button login" onClick={handleLogin}>Login</button>
+        <button className="button login" onClick={handleLoginClick}>Login</button>
       </form> : "" }
 
-      <form>
+      {/* ShowInput.js  */}
+      { loggedIn ? 
+      <div>
         <label htmlFor="user-choice" className="sr-only">What shows would you like to watch?</label>
-        <input type="text" id="user-choice" onChange={handleInputChange}/>
-        <button className='button add' onClick={() => {handleAddButton()}}>ADD</button>
-      </form>
+        <input type="text" id="user-choice" value={showInput} onChange={handleNewChoice}/>
+        <button className='button add' onClick={handleAddClick}>ADD</button>
+      </div> : '' }
 
       {/* WatchList.js */}
-      <div>
-        {loggedIn ? <h2>{userName}'s Watch List</h2> : ''}
+
+      <form action="submit">
+        { loggedIn ? <h2>{userName}'s Watch List</h2> : ''}
         <ul>
-          {/* list will append here as they add items */}
+          {
+            // if shows exists..
+            shows.map((show, i) => {
+              // console.log(i);
+              return <li key={i}>{show}</li>;
+            })
+          }
         </ul>
-        <button className="button done" onClick={handleClick}>DONE</button>
+        <button className="button done" onClick={handleDoneClick}>DONE</button>
+      </form>
+        
+        {/* user Card */}
+        { done ? <UserListCard userName={userName} showList={shows} /> : ''}
+
       </div>
-    </div>
   );
 }
 
