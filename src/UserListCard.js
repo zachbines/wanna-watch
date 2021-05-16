@@ -8,9 +8,9 @@ const UserListCard = (props) => {
       <h3>{userName}'s Watch List</h3>
       <ul>     
         {
-        showList.map((show, i) => {
-          return <li key={i}>{show}</li>
-        })
+          showList.map((show, i) => {
+            return <li key={i}>{show}</li>
+          })
         }
 
         <h2>hello!</h2>

@@ -30,7 +30,7 @@ function App() {
   const [ loggedIn, setLoggedIn ] = useState(false);
   // state for the array of shows
   const [ shows, setShows ] = useState([]);
-  // const [ dbShows, setDbShows ] = useState([]);
+  const [ dbData, setDbData ] = useState([]);
   // state for the users choice input
   const [ showInput, setShowInput ] = useState('');
 //state for the done button
@@ -45,20 +45,26 @@ function App() {
 useEffect(
     () => {
       dbRef.on('value', (snapshot) => {
+      const dbDataArray = [];
       const data = snapshot.val();
       for (let key in data) {
+        const {userName, shows} = data[key];
         // loop through database go into every object and extract key values
-        console.log(data[key]);
-          // new ref point using random key number
+        let userObj = {name: userName, shows: shows };
+        dbDataArray.push(userObj);
+        // console.log(userObj);
       } 
-    })
-  }
+      setDbData(dbDataArray);
+  
+    });
+    console.log(dbData);
+  },
+  []
 )
-
+// console.log(dbData);
   //printing new user Card
   useEffect(
-    () => {
-     
+    () => {     
       dbRef.on('value', (snapshot) => {
         const data = snapshot.val();
         // console.log(data)
@@ -180,7 +186,7 @@ useEffect(
       </form>
         
         {/* user Card */}
-        { done ? <UserListCard userName={userName} showList={shows} /> : ''}
+        { done ? <UserListCard userName={userName} showList={shows} dbData={dbData}/> : ''}
 
       </div>
   );
