@@ -1,18 +1,28 @@
 import './styles/App.css';
 
-const UserListCard = (props) => {
-  const { userName, showList} = props;
+const UserListCard = ({ dbData }) => {
+  console.log(dbData);
 
-
-  // in here is where i need to extract the data from the database and print it to the card for persistence
+ // printing from database 
   return (
-    <div className="user-list-card">
-      <h3>{userName}'s Watch List</h3>
-      <ul>     
+    <div className="stored-lists">
+      <ul>
         {
-          showList.map((show, i) => {
-            return <li key={i}>{show}</li>
-          })
+          dbData.map((user) => {
+            console.log(user)
+            return (
+              <div key={user.userKey} className="user-list-card">
+                <h3>{user.name}'s Watch List</h3>
+                <ul>
+                  {user.shows.map((show, i) => {
+                    return <li key={i}>{show}</li>
+                  })
+                  }
+                </ul>
+              </div>
+            )
+          }
+          )
         }
       </ul>
     </div>

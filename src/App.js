@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import './styles/App.css';
 import firebase from './firebase.js';
 // import WatchList from './WatchList.js';
-import UserListCard from './UserListCard.js';
+import UserCards from './UserListCard.js';
 
 
 
@@ -30,70 +30,57 @@ function App() {
   const [ loggedIn, setLoggedIn ] = useState(false);
   // state for the array of shows
   const [ shows, setShows ] = useState([]);
+  // should ne the state of the dbData
   const [ dbData, setDbData ] = useState([]);
   // state for the users choice input
   const [ showInput, setShowInput ] = useState('');
 //state for the done button
   const [ done, setDone ] = useState(false);
-  
+  console.log(done);
   // when user "logs in" the database will be queried to check for that name 
   // if the username exsits, show their picks and the ability to add to them, else, just show the app interface. 
 
 
 
   //this is me trying to query the database to add user cards on page load
+/* 
+  useEffect(() => {
+
+
+      // console.log(data);
+      if (data !== null || data !== undefined) {
+        console.log(data);
+      } else {
+        setError("an error occured connecting to firebase");
+      }
+    });
+  }, []
+  );
+*/ 
+
 useEffect(
+
     () => {
       dbRef.on('value', (snapshot) => {
       const dbDataArray = [];
       const data = snapshot.val();
-      for (let key in data) {
-        const {userName, shows} = data[key];
-        // loop through database go into every object and extract key values
-        let userObj = {name: userName, shows: shows };
-        dbDataArray.push(userObj);
-        // console.log(userObj);
-      } 
-      setDbData(dbDataArray);
+      console.log(data);
+      if (data !== null || data !== undefined) {
+        for (let key in data) {
+          console.log(`working with userKey ${key}`)
+          const {userName, shows} = data[key];
+          // loop through database go into every object and extract key values
+          let userObj = { name: userName, shows: shows, userKey: key };
+          dbDataArray.push(userObj);
+          console.log(userObj);
+        } 
+        setDbData(dbDataArray);
+      }
+      console.log("data from database", dbDataArray);
     });
-    console.log(dbData);
   },
   []
 )
-// console.log(dbData);
-  //printing new user Card
-  useEffect(
-    () => {     
-      dbRef.on('value', (snapshot) => {
-        const data = snapshot.val();
-        // console.log(data)
-        let dbShows = [];
-        for (let key in data) {
-          // loop through database, if the userName matches, go into that object
-          if (userName === data[key].userName) {
-            let currentDbRef = firebase.database().ref(`users/${key}`); // new ref 
-            // console.log(key); // gives me the shows array
-            //the idea as to query the database so that users can bring up their lists 
-            // point using random key number
-            currentDbRef.on('value', (snapshot) => {
-              const currentData = snapshot.val();
-              // console.log(currentData);
-              dbShows = currentData.shows;
-              // console.log(dbShows)
-            })
-          } 
-        }
-
-        if (done) {
-          // trying to access the shows from the database rather than the local array
-          setShows(dbShows);
-          console.log('this one', shows);
-          // console.log('it is done');
-        }
-      })
-    },
-    []
-  )
 
   const handleRemoveItem = (show) => {
     alert(`remove was clicked and ${show} was removed`);
@@ -145,7 +132,6 @@ useEffect(
     // handle the name appending to the page
   }
 
-
   return (
     <div className="App">
       <h1>wannaWatch</h1>
@@ -161,27 +147,25 @@ useEffect(
         <button className="button login" >Login</button>
       </form> : "" }
 
-      {/* ShowInput.js  */}
-      { loggedIn ? 
+      {/* TvShowInput.js  make into new componet, 
+      maybe include WatchList in that component as well */}
+      { loggedIn &&
       <div className="user-input">
         <label htmlFor="user-choice" className="sr-only">What shows would you like to watch?</label>
         <div className="input-container">
           <input type="text" id="user-choice" value={showInput} onChange={handleNewChoice} placeholder="whatchaWannaWatch?" />
           <button className='button add' onClick={handleAddClick}>add</button>
         </div>
-      </div> : '' }
+      </div> }
 
       {/* WatchList.js */}
-
       <div>
         { loggedIn ? 
-        <h2>{userName}'s Watch List</h2> 
+        <h2>{userName}'s Watch List</h2>
         : '' }
        <ul className="watch-list">
           {
-            // if shows exists..
             shows.map((show, i) => {
-              // console.log(i);
               return (
               <div className="list-item-container">
                 <li key={i}>{show}</li>
@@ -195,8 +179,8 @@ useEffect(
       </div>
         
         {/* user Card */}
-        { done ? <UserListCard userName={userName} showList={shows} dbData={dbData}/> : ''}
-
+        <UserCards dbData={dbData}/>
+          {/* rename this component */}
     </div>
   );
 }
