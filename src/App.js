@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import './App.css';
+import './styles/App.css';
 import firebase from './firebase.js';
 // import WatchList from './WatchList.js';
 import UserListCard from './UserListCard.js';
@@ -55,7 +55,6 @@ useEffect(
         // console.log(userObj);
       } 
       setDbData(dbDataArray);
-  
     });
     console.log(dbData);
   },
@@ -82,7 +81,6 @@ useEffect(
               dbShows = currentData.shows;
               // console.log(dbShows)
             })
-
           } 
         }
 
@@ -93,11 +91,13 @@ useEffect(
           // console.log('it is done');
         }
       })
-      
     },
     []
   )
 
+  const handleRemoveItem = (show) => {
+    alert(`remove was clicked and ${show} was removed`);
+  }
     
 //USER CHOICE INPUT HANDLERS -------------
   // user show choice change handler
@@ -119,7 +119,6 @@ useEffect(
     setShowInput('')
   }
 
-  
   // done button handler
   const handleDoneClick = (event) => {  
     event.preventDefault();
@@ -137,6 +136,7 @@ useEffect(
     setUserName(currentUser);
     // console.log(currentUser);
   }
+  
   // login button handler
   const handleLoginClick = () => {
     setDone(false);
@@ -151,44 +151,53 @@ useEffect(
       <h1>wannaWatch</h1>
 
       { !loggedIn ? 
-      <form action="submit" className="user-login">
+      <form action="submit" className="user-login" onSubmit={handleLoginClick}>
         <label htmlFor="username" className="sr-only">What's your name?</label>
         {/* put onChange, and value in input
         onChange is a function which sets the userInput name,
         value={userName} */}
-        <input type="text" id="username" placeholder="Type your name here" onChange={handleNameChange}/>
+        <input type="text" id="username" placeholder="Type your name here" onChange={handleNameChange} required/>
         {/* onCLick = function which sets the state of Login to true. this renders the user-choice input on the screen and hides this form */}
-        <button className="button login" onClick={handleLoginClick}>Login</button>
+        <button className="button login" >Login</button>
       </form> : "" }
 
       {/* ShowInput.js  */}
       { loggedIn ? 
-      <div>
+      <div className="user-input">
         <label htmlFor="user-choice" className="sr-only">What shows would you like to watch?</label>
-        <input type="text" id="user-choice" value={showInput} onChange={handleNewChoice}/>
-        <button className='button add' onClick={handleAddClick}>ADD</button>
+        <div className="input-container">
+          <input type="text" id="user-choice" value={showInput} onChange={handleNewChoice} placeholder="whatchaWannaWatch?" />
+          <button className='button add' onClick={handleAddClick}>add</button>
+        </div>
       </div> : '' }
 
       {/* WatchList.js */}
 
-      <form action="submit">
-        { loggedIn ? <h2>{userName}'s Watch List</h2> : ''}
-        <ul>
+      <div>
+        { loggedIn ? 
+        <h2>{userName}'s Watch List</h2> 
+        : '' }
+       <ul className="watch-list">
           {
             // if shows exists..
             shows.map((show, i) => {
               // console.log(i);
-              return <li key={i}>{show}</li>;
+              return (
+              <div className="list-item-container">
+                <li key={i}>{show}</li>
+                <button className="remove" onClick={() => {handleRemoveItem(show)}}>remove</button>
+              </div>
+              )
             })
           }
-        </ul>
-        <button className="button done" onClick={handleDoneClick}>DONE</button>
-      </form>
+        </ul> 
+        {loggedIn && <button className="button done" onClick={handleDoneClick} >DONE</button> }
+      </div>
         
         {/* user Card */}
         { done ? <UserListCard userName={userName} showList={shows} dbData={dbData}/> : ''}
 
-      </div>
+    </div>
   );
 }
 

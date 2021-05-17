@@ -1,3 +1,5 @@
+import './styles/App.css';
+
 const UserListCard = (props) => {
   const { userName, showList} = props;
 
@@ -12,11 +14,10 @@ const UserListCard = (props) => {
             return <li key={i}>{show}</li>
           })
         }
-
-        <h2>hello!</h2>
       </ul>
     </div>
   )
+
 }
 
 export default UserListCard;

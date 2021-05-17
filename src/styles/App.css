@@ -8,16 +8,136 @@ html { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: 
 
 .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; border: 0; padding: 0; white-space: nowrap; clip-path: inset(100%); clip: rect(0 0 0 0); overflow: hidden;}
 
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@600&display=swap');
+
+html {
+  font-size: 62.5%;
+}
+body {
+  font-size: 2rem;
+
+}
 .App {
-  text-align: center;
+
+    background-image: linear-gradient(13deg, rgba(199, 191, 188, 0.473) 5%, rgba(155, 177, 168, 0.8) 58%, rgba(161, 81, 27, 0.6) 80%), url(./tv2.jpg);
+    background-size: cover;
+    background-position: top;
+    background-repeat: no-repeat; 
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 ul {
   padding: 0;
+  margin: 0;
+  width: 100%;
 }
 
-li {
+.watch-list li {
   list-style: none;
+  text-transform: capitalize;
   padding: 0;
   margin: 0;
+  background-color: whitesmoke;
+  padding: 15px 15px 15px 25px;
+  margin: 10px 0;
+  border: 1px solid darkgray;
+  border-radius: 5px;
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.247);
+}
+
+h1 {
+  font-family: 'Comfortaa', cursive;
+  font-size: 10rem;
+  margin: 10px 0;
+  color: whitesmoke;
+}
+
+h2 {
+  text-transform: capitalize;
+  font-size: 5rem;
+  font-family: 'Comfortaa', cursive;
+  color: whitesmoke;
+  margin: 50px 20px 20px;
+  position: relative;
+}
+
+h2::before {
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: -9px;
+  left: 25%;
+  background-color: whitesmoke;
+  width: 50%;
+  height: 1px;
+}
+
+form {
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+}
+
+input {
+  border: 1px solid whitesmoke;
+  border-radius: 3px;
+  padding: 10px;
+  background-color: rgba(155, 177, 168, 0.6);
+  color: white;
+  box-shadow: 0 0 10px rgba(212, 214, 213, 0.5);
+}
+
+.user-input {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+}
+
+.user-input input{
+  width: 100%;
+  padding: 15px;
+  border-radius: 3px 25px 25px 3px;
+}
+
+button {
+  font-family: 'Comfortaa', cursive;
+  border: 0;
+  padding: 10px 30px;
+  font-size: 2.5rem;
+  border-radius: 25px 3px 25px 3px;
+  margin: 15px;
+  color: #998f73;
+}
+
+.input-container {
+  width: 500px;
+  position: relative;
+}
+.list-item-container {
+  position: relative;
+}
+
+.add, .remove {
+  border-radius: 25px;
+  display: inline-block;
+  margin: 5px;
+  padding: 4px 15px;
+  position: absolute;
+  top: 4px;
+  right: 5px;
+}
+
+.remove {
+  font-size: 2rem;
+  background-image: linear-gradient(13deg, rgba(199, 191, 188, 0.473) 5%, rgba(155, 177, 168, 0.8) 58%, rgba(119, 84, 61, 0.3) 80%);
+  top: 5px;
+  padding: 6px 15px;
+  color: whitesmoke;
+  border: none;
+  outline: darkslategray;
+  box-shadow: 0px 0px 10px #0000008c;
 }
