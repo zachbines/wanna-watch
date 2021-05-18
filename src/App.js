@@ -3,6 +3,8 @@ import './styles/App.css';
 import firebase from './firebase.js';
 // import WatchList from './WatchList.js';
 import UserCards from './UserListCard.js';
+import TvShowInput from './TvShowInput.js';
+import { WatchList } from './TvShowInput.js';
 
 
 
@@ -10,8 +12,8 @@ import UserCards from './UserListCard.js';
 // If username is true, show an element with that value; if not, show nothing or "Create your watchlist" prompt
 
 // what is the data structure for the showInput state ? users will be adding up to 5 shows, correct ? How are these 5 shows being saved - AKA structured - within state so you can:
-    // a) easily render them within the ListItems component
-    // b) eventually pass them into firebase if the user decides to save their list
+// a) easily render them within the ListItems component
+// b) eventually pass them into firebase if the user decides to save their list
 
 // remember to "control" all your inputs (i.e.add an onChange event and tie their values to state)
 
@@ -23,70 +25,66 @@ import UserCards from './UserListCard.js';
 const dbRef = firebase.database().ref('/users');
 
 function App() {
-  
+
   // state for userName
-  const [ userName, setUserName ] = useState(false);
+  const [userName, setUserName] = useState(false);
   //state for whether the user is logged in or not
-  const [ loggedIn, setLoggedIn ] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
   // state for the array of shows
-  const [ shows, setShows ] = useState([]);
+  const [shows, setShows] = useState([]);
   // should ne the state of the dbData
-  const [ dbData, setDbData ] = useState([]);
+  const [dbData, setDbData] = useState([]);
   // state for the users choice input
-  const [ showInput, setShowInput ] = useState('');
-//state for the done button
-  const [ done, setDone ] = useState(false);
+  const [showInput, setShowInput] = useState('');
+  //state for the done button
+  const [done, setDone] = useState(false);
   console.log(done);
-  // when user "logs in" the database will be queried to check for that name 
-  // if the username exsits, show their picks and the ability to add to them, else, just show the app interface. 
+  // when user "logs in" the database will be queried to check for that 
 
-
-
-  //this is me trying to query the database to add user cards on page load
-/* 
-  useEffect(() => {
-
-
-      // console.log(data);
-      if (data !== null || data !== undefined) {
-        console.log(data);
-      } else {
-        setError("an error occured connecting to firebase");
-      }
-    });
-  }, []
-  );
-*/ 
-
-useEffect(
-
+  useEffect(
     () => {
       dbRef.on('value', (snapshot) => {
-      const dbDataArray = [];
-      const data = snapshot.val();
-      console.log(data);
-      if (data !== null || data !== undefined) {
-        for (let key in data) {
-          console.log(`working with userKey ${key}`)
-          const {userName, shows} = data[key];
-          // loop through database go into every object and extract key values
-          let userObj = { name: userName, shows: shows, userKey: key };
-          dbDataArray.push(userObj);
-          console.log(userObj);
-        } 
-        setDbData(dbDataArray);
-      }
-      console.log("data from database", dbDataArray);
-    });
-  },
-  []
-)
+        const dbDataArray = [];
+        const data = snapshot.val();
+        console.log(data);
+        if (data !== null || data !== undefined) {
+          for (let key in data) {
+            console.log(`working with userKey ${key}`)
+            const { userName, shows } = data[key];
+            // loop through database go into every object and extract key values
+            let userObj = { name: userName, shows: shows, userKey: key };
+            dbDataArray.push(userObj);
+            console.log(userObj);
+          }
+          setDbData(dbDataArray);
+        }
+        console.log("data from database", dbDataArray);
+      });
+    },
+    []
+  )
 
-  const handleRemoveItem = (show) => {
-    alert(`remove was clicked and ${show} was removed`);
+  const [entries, setEntries] = useState(0);
+
+  // useEffect(
+  //   () => {
+  //     if (entries === 5 ) {
+
+  //     }
+  //   }
+  // )
+
+  const handleRemoveItem = (i) => {
+    const newList = shows.filter((x, index) => index !== i)
+    setShows(newList);
+    setEntries(entries - 1);
   }
-    
-//USER CHOICE INPUT HANDLERS -------------
+
+  const deleteCard = (card) => {
+    dbRef.child(card).remove();
+  }
+
+  //USER CHOICE INPUT HANDLERS ------------- 
   // user show choice change handler
   const handleNewChoice = (event) => {
     let currentChoice = event.target.value;
@@ -94,20 +92,19 @@ useEffect(
     // console.log(currentChoice);
   }
   // everytime the add button is clicked:
-      //  setShows is updated
+  //  setShows is updated
   const handleAddClick = () => {
-    
-      // update shows array 
-    const newShow = shows.concat(showInput);
-    setShows(newShow); 
 
-    console.log(newShow); // gives me all entries. why?
-    // console.log(shows); // doesnt give me the most current entry. why?
+    // update shows array 
+    const newShows = shows.concat(showInput);
+    setShows(newShows);
+    setEntries(entries + 1);
+    console.log(newShows);
     setShowInput('')
   }
 
   // done button handler
-  const handleDoneClick = (event) => {  
+  const handleDoneClick = (event) => {
     event.preventDefault();
     // console.log(userProfile);
     dbRef.push({ userName, shows });
@@ -115,7 +112,7 @@ useEffect(
     setLoggedIn(false);
     // this give users/jdhfdkajaj/shows+userName as siblings
   }
-  
+
   // USERNAME CHANGE/LOGIN CLICK HANDLERS -------
   // username change handler
   const handleNameChange = (event) => {
@@ -123,7 +120,7 @@ useEffect(
     setUserName(currentUser);
     // console.log(currentUser);
   }
-  
+
   // login button handler
   const handleLoginClick = () => {
     setDone(false);
@@ -134,53 +131,41 @@ useEffect(
 
   return (
     <div className="App">
-      <h1>wannaWatch</h1>
+      <div className="wrapper ">
+        <h1>wannaWatch</h1>
 
-      { !loggedIn ? 
-      <form action="submit" className="user-login" onSubmit={handleLoginClick}>
-        <label htmlFor="username" className="sr-only">What's your name?</label>
-        {/* put onChange, and value in input
+        {!loggedIn ?
+          <form action="submit" className="user-login" onSubmit={handleLoginClick}>
+            <label htmlFor="username" className="sr-only">What's your name?</label>
+            {/* put onChange, and value in input
         onChange is a function which sets the userInput name,
         value={userName} */}
-        <input type="text" id="username" placeholder="Type your name here" onChange={handleNameChange} required/>
-        {/* onCLick = function which sets the state of Login to true. this renders the user-choice input on the screen and hides this form */}
-        <button className="button login" >Login</button>
-      </form> : "" }
+            <input type="text" id="username" placeholder="Type your name here" onChange={handleNameChange} required />
+            {/* onCLick = function which sets the state of Login to true. this renders the user-choice input on the screen and hides this form */}
+            <button className="button login" >Login</button>
+          </form> : ""}
 
-      {/* TvShowInput.js  make into new componet, 
+        {/* TvShowInput.js  make into new componet, 
       maybe include WatchList in that component as well */}
-      { loggedIn &&
-      <div className="user-input">
-        <label htmlFor="user-choice" className="sr-only">What shows would you like to watch?</label>
-        <div className="input-container">
-          <input type="text" id="user-choice" value={showInput} onChange={handleNewChoice} placeholder="whatchaWannaWatch?" />
-          <button className='button add' onClick={handleAddClick}>add</button>
-        </div>
-      </div> }
+        {loggedIn && <TvShowInput 
+          userChoice={showInput}
+          entries={entries}
+          handleNewChoice={handleNewChoice}
+          add={handleAddClick}
+        /> }
 
-      {/* WatchList.js */}
-      <div>
-        { loggedIn ? 
-        <h2>{userName}'s Watch List</h2>
-        : '' }
-       <ul className="watch-list">
-          {
-            shows.map((show, i) => {
-              return (
-              <div className="list-item-container">
-                <li key={i}>{show}</li>
-                <button className="remove" onClick={() => {handleRemoveItem(show)}}>remove</button>
-              </div>
-              )
-            })
-          }
-        </ul> 
-        {loggedIn && <button className="button done" onClick={handleDoneClick} >DONE</button> }
-      </div>
+        {loggedIn && <WatchList 
+          entries={entries}
+          userName={userName}
+          showsList={shows}
+          handleRemoveItem={handleRemoveItem}
+          handleDoneClick={handleDoneClick}
+        />}
+        
         
         {/* user Card */}
-        <UserCards dbData={dbData}/>
-          {/* rename this component */}
+        <UserCards dbData={dbData} deleteCard={deleteCard} />
+      </div>
     </div>
   );
 }

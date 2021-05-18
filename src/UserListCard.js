@@ -1,19 +1,20 @@
 import './styles/App.css';
+// import { }
 
-const UserListCard = ({ dbData }) => {
+const UserListCard = ({ dbData, deleteCard }) => {
   console.log(dbData);
 
  // printing from database 
   return (
     <div className="stored-lists">
-      <ul>
         {
           dbData.map((user) => {
             console.log(user)
             return (
               <div key={user.userKey} className="user-list-card">
+                <i className="delete" onClick={() => { deleteCard(user.userKey) }}>x</i>
                 <h3>{user.name}'s Watch List</h3>
-                <ul>
+                <ul className="user-list">
                   {user.shows.map((show, i) => {
                     return <li key={i}>{show}</li>
                   })
@@ -24,7 +25,6 @@ const UserListCard = ({ dbData }) => {
           }
           )
         }
-      </ul>
     </div>
   )
 
