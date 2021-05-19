@@ -1,31 +1,18 @@
+import '../styles/App.css';
 import { useEffect, useState } from 'react';
-import './styles/App.css';
-import firebase from './firebase.js';
+import firebase from '../config/firebase.js';
 import Login from './Login.js';
 import UserCards from './UserListCard.js';
 import TvShowInput from './TvShowInput.js';
 import { WatchList } from './TvShowInput.js';
 
 
-
-// // how are you appending the username to your page, given that we don't use traditional vanilla JS DOM methods in React? (Perhaps you can use state here again? 
-// If username is true, show an element with that value; if not, show nothing or "Create your watchlist" prompt
-
-// what is the data structure for the showInput state ? users will be adding up to 5 shows, correct ? How are these 5 shows being saved - AKA structured - within state so you can:
-// a) easily render them within the ListItems component
-// b) eventually pass them into firebase if the user decides to save their list
-
 // remember to "control" all your inputs (i.e.add an onChange event and tie their values to state)
 
-// how will you structure the username PLUS the list of TV shows so you can pass both data points to Firebase in a single data structure (which can then be easily accessed once you have to render all the submitted "Watch lists" from all users to the page ?)
-
-// do you need a method which will query Firebase every time a new user loads your app to load previously saved lists ? if so, when / how will this method be called (is requesting data from Firebase once all components have loaded, perhaps, a side effect ?)
-
 // storing a reference to the database
+
 const dbRef = firebase.database().ref('/users');
-
-function App() {
-
+function App() { 
   // state for userName
   const [userName, setUserName] = useState(false);
   //state for whether the user is logged in or not
@@ -81,7 +68,7 @@ function App() {
   }
 
   // done button handler
-  const handleDoneClick = (event) => {
+  const handleSaveClick = (event) => {
     event.preventDefault();
     // console.log(userProfile);
     dbRef.push({ userName, shows });
@@ -97,7 +84,6 @@ function App() {
     setUserName(currentUser);
     // console.log(currentUser);
   }
-
   // login button handler
   const handleLoginClick = (event) => {
     event.preventDefault();
@@ -128,11 +114,14 @@ function App() {
           userName={userName}
           showsList={shows}
           removeShow={removeListItem}
-          handleDoneClick={handleDoneClick}
+          saveUserList={handleSaveClick}
         />}
         
         <UserCards dbData={dbData} database={dbRef} />
       </div>
+        <footer>
+          <p>Created at <a href="http://junocollege.com">Juno</a> College</p>
+        </footer>
     </div>
   );
 }

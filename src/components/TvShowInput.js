@@ -1,3 +1,4 @@
+import '../styles/App.css'
 import {useState} from 'react';
 
 const TvShowInput = ({entries, addShow }) => {
@@ -32,29 +33,29 @@ export const WatchList = (props) => {
   const { 
     userName, 
     removeShow, 
-    handleDoneClick, 
+    saveUserList, 
     showsList, 
     entries } = props;
 
   return (
     <section className="watch-list-container">
       <h2>{userName}'s Watch List</h2>
-      <div className="watch-list">
+      <ul className="watch-list"> 
         {
           showsList.map((show, i) => {
             return (
-              <ul className="list-item-container">
+              <li key={i} className="list-item-container">
 
-                <li key={i}>{show}
+                <div>{show}
                   <button className="remove" onClick={() => { removeShow(i) }}>remove</button>
             
-                </li>
-              </ul>
+                </div>
+              </li>
             )
           })
         }
-      </div>
-      {entries > 0 && <button className="button done" onClick={handleDoneClick}>DONE</button>}
+      </ul>
+      {entries > 0 && <button className="button save" onClick={saveUserList}><span>SAVE</span></button>}
     </section> 
   )
 }

@@ -38,12 +38,16 @@ li {
     max-width: 1440px;
     width: 80%;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 header {
     display: flex;
     flex-direction: column;
-    justify-content: end;
+    justify-content: flex-end;
     align-items: center;
 }
 
@@ -53,16 +57,20 @@ header {
   width: 90%;
 }
 
-.user-input {
-  width: 100%;
+.user-input,
+.watch-list-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-}
+  align-items: center;
+  width: 55%;
+} 
 
 .input-container,
 .watch-list {
-  width: 40%;
-  min-width: 320px;
+  width: 100%;
+  max-width: 600px;
+  min-width: 300px;
   position: relative;
 }
 
@@ -72,7 +80,7 @@ header {
   border-radius: 3px 25px 25px 3px;
 }
 
-.list-item-container li {
+.list-item-container div {
   text-transform: capitalize;
   padding: 0;
   margin: 0;
@@ -126,15 +134,9 @@ input {
   box-shadow: 0 0 10px rgba(212, 214, 213, 0.5);
 }
 
-.watch-list-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  /* width: 60%; */
-}
 
 
+/* this was a ul, now li */
 .list-item-container {
   padding: 0;
   position: relative;
@@ -180,6 +182,11 @@ button:focus {
   box-shadow: 0px 0px 10px #0000008c;
 }
 
+.save {
+ font-size: 2.3rem;
+ /* align-self: flex-end; */
+}
+
 .stored-lists {
   align-self: flex-start;
   display: flex;
@@ -191,7 +198,7 @@ button:focus {
 .user-list-card {
   text-transform: capitalize;
   font-family: 'Comfortaa', cursive;
-  width: 300px;
+  flex-basis: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -236,6 +243,17 @@ h3 {
   background-color: darkslategray;
 }
 
+footer {
+  margin: 0 40px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+a {
+  text-decoration: none;
+  color: whitesmoke;
+}
+
 .center {
   text-align: center;
 }
@@ -250,7 +268,7 @@ h3 {
     opacity: 0;
     transform: translateY(20px);
   }
-  
+
   100% {
     opacity: 1;
     transform: translateY(0px);
