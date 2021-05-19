@@ -153,6 +153,7 @@ button {
   margin: 15px;
   color: #998f73;
   transition: all 100ms ease;
+  background-color: whitesmoke;
   -webkit-appearance:none;
   opacity: 1
 }
