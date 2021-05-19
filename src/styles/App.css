@@ -305,4 +305,9 @@ a {
     left: 7px;
   }
 
+  ::-webkit-input-placeholder,
+  ::-ms-input-placeholder {
+    color: rgba(245, 245, 245, 0.842)
+  }
 }
+
