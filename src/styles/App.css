@@ -52,6 +52,10 @@ header {
     align-items: center;
 }
 
+.user-login input {
+
+}
+
  .user-list {
   padding: 0;
   margin: 0;
@@ -137,6 +141,7 @@ input {
   color: white;
   box-shadow: 0 0 10px rgba(212, 214, 213, 0.5);
 }
+
 
 /* this was a ul, now li */
 .list-item-container {
@@ -305,9 +310,14 @@ a {
     left: 7px;
   }
 
-  ::-webkit-input-placeholder,
+  ::-webkit-input-placeholder {
+    color: white;
+    /* opacity: 0.9; */
+  }
+
   ::-ms-input-placeholder {
-    color: rgba(245, 245, 245, 0.842)
+    color: white;
+    /* opacity: 0.9; */
   }
 }
 
