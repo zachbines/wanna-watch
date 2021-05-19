@@ -24,7 +24,7 @@ function App() {
   
   // state to track how many entries the user has inputted
   const [entries, setEntries] = useState(0);
-  // when user "logs in" the database will be queried to check for that 
+  // when user "logs in" the database will be queried to check for that
 
   useEffect(
     () => {
@@ -81,8 +81,11 @@ function App() {
   // username change handler
   const handleNameChange = (event) => {
     let currentUser = event.target.value;
-    setUserName(currentUser);
-    // console.log(currentUser);
+
+    // making sure username doesnt get too long
+    if ( currentUser.length < 15) {
+      setUserName(currentUser);
+    }
   }
   // login button handler
   const handleLoginClick = (event) => {
@@ -96,7 +99,7 @@ function App() {
     <div className="App">
       <div className="wrapper">
         <header >
-          <h1 className="fade-in">wannaWatch</h1>
+          <h1 className="fade-in">wanna<span>Watch</span></h1>
           {!loggedIn 
           ? <Login 
             handleLoginClick={handleLoginClick} 
@@ -119,9 +122,9 @@ function App() {
         
         <UserCards dbData={dbData} database={dbRef} />
       </div>
-        <footer>
-          <p>Created at <a href="http://junocollege.com">Juno</a> College</p>
-        </footer>
+      <footer>
+        <p>Created at <a href="http://junocollege.com">Juno</a> College</p>
+      </footer>
     </div>
   );
 }

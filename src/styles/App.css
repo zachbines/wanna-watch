@@ -26,6 +26,7 @@ ul {
 li {
   list-style: none;
 }
+
 .App {
     background-image: linear-gradient(13deg, rgba(199, 191, 188, 0.473) 5%, rgba(155, 177, 168, 0.8) 58%, rgba(161, 81, 27, 0.6) 80%), url(./tv2.jpg);
     background-size: cover;
@@ -63,12 +64,12 @@ header {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 55%;
+  width: 100%;
 } 
 
 .input-container,
 .watch-list {
-  width: 100%;
+  width: 55%;
   max-width: 600px;
   min-width: 300px;
   position: relative;
@@ -94,17 +95,20 @@ header {
 
 h1 {
   font-family: 'Comfortaa', cursive;
-  font-size: 10rem;
+  font-size: calc(7rem + 2vw);
+  letter-spacing: 2px;
   margin: 170px 0 10px;
   color: whitesmoke;
+  text-align: center;
+  position: relative;
 }
 
 h2 {
   text-transform: capitalize;
-  font-size: 5rem;
+  font-size: calc(2rem + 2vw);
   font-family: 'Comfortaa', cursive;
   color: whitesmoke;
-  margin: 50px 20px 20px;
+  margin: 50px 0 20px;
   position: relative;
 }
 
@@ -133,8 +137,6 @@ input {
   color: white;
   box-shadow: 0 0 10px rgba(212, 214, 213, 0.5);
 }
-
-
 
 /* this was a ul, now li */
 .list-item-container {
@@ -188,7 +190,6 @@ button:focus {
 }
 
 .stored-lists {
-  align-self: flex-start;
   display: flex;
   flex-wrap: wrap;
   max-width: 100%;
@@ -198,7 +199,7 @@ button:focus {
 .user-list-card {
   text-transform: capitalize;
   font-family: 'Comfortaa', cursive;
-  flex-basis: 300px;
+  min-width: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -275,3 +276,34 @@ a {
   }
 }
 
+@media (max-width: 760px) {
+
+  .wrapper {
+    width: 85%;
+  }
+  
+  input {
+    font-size: 1.8rem;
+  }
+
+}
+
+@media (max-width: 570px) {
+
+  .wrapper {
+    width: 90%;
+  }
+
+  h1 span {
+    display: block;
+    position: relative;
+    top: -19px;
+    left: 7px;
+  }
+
+  .stored-lists {
+    justify-content: center;
+  }
+
+
+}

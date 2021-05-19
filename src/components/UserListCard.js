@@ -19,7 +19,11 @@ const UserListCard = ({ dbData, database }) => {
                 className="delete" 
                 onClick={() => {deleteCard(user.userKey)}}
                 >x</div>
-                <h3>{user.name}'s Watch List</h3>
+                { user.name.lastIndexOf('s') !== (user.name.length - 1) ? 
+                <h3>{user.name}'s Watch List</h3> 
+                : <h3>{user.name}' Watch List</h3>
+                }
+                
                 <ul className="user-list">
                   {
                   user.shows.map((show, i) => {

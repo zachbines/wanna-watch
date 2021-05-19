@@ -20,7 +20,7 @@ const TvShowInput = ({entries, addShow }) => {
           id="user-choice"
           value={showInput}
           onChange={handleNewChoice}
-          placeholder={entries === 5 ? "Click DONE to save your list" : "whatchaWannaWatch?"}
+          placeholder={entries === 5 ? "Click SAVE to save your list" : "whatchaWannaWatch?"}
           disabled={entries === 5 ? true : false}
         />
         {entries < 5 && <button className='button add' onClick={() => {addShow(showInput, setShowInput)}}>add</button>}
@@ -39,7 +39,10 @@ export const WatchList = (props) => {
 
   return (
     <section className="watch-list-container">
-      <h2>{userName}'s Watch List</h2>
+      { userName.lastIndexOf('s') !== (userName.length - 1) ?
+        <h2>{userName}'s Watch List</h2>
+        : <h2>{userName}' Watch List</h2>
+      }
       <ul className="watch-list"> 
         {
           showsList.map((show, i) => {
