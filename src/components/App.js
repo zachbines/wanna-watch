@@ -124,6 +124,7 @@ function App() {
       </div>
       <footer>
         <p>Created at <a href="http://junocollege.com">Juno</a> College</p>
+        <p>Background cortesy of <a href="https://wallpaperaccess.com/">https://wallpaperaccess.com/</a></p>
       </footer>
     </div>
   );

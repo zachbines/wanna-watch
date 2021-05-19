@@ -20,7 +20,7 @@ const TvShowInput = ({entries, addShow }) => {
           id="user-choice"
           value={showInput}
           onChange={handleNewChoice}
-          placeholder={entries === 5 ? "Click SAVE to save your list" : "whatchaWannaWatch?"}
+          placeholder={entries === 5 ? "Click SAVE to save your list" : "whatcha wanna watch?"}
           disabled={entries === 5 ? true : false}
         />
         {entries < 5 && <button className='button add' onClick={() => {addShow(showInput, setShowInput)}}>add</button>}

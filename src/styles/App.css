@@ -32,7 +32,7 @@ li {
     background-size: cover;
     background-position: top;
     background-repeat: no-repeat;  
-    min-height: 100vh; 
+    
 }
 
 .wrapper {
@@ -43,6 +43,7 @@ li {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    min-height: 100vh; 
 }
 
 header {
@@ -53,7 +54,7 @@ header {
 }
 
 .user-login input {
-
+  width: 280px;
 }
 
  .user-list {
@@ -107,6 +108,7 @@ h1 {
   position: relative;
 }
 
+
 h2 {
   text-transform: capitalize;
   font-size: calc(2rem + 2vw);
@@ -140,6 +142,16 @@ input {
   background-color: rgba(155, 177, 168, 0.6);
   color: white;
   box-shadow: 0 0 10px rgba(212, 214, 213, 0.5);
+} 
+
+::-webkit-input-placeholder {
+  color: white;
+  opacity: 0.8;
+}
+
+::-ms-input-placeholder {
+  color: white;
+  opacity: 0.8;
 }
 
 
@@ -168,7 +180,6 @@ button:focus {
   box-shadow: 0px 0px 6px #0000008c;
   background-color: rgb(228, 218, 195);
 }
-
 
 .add, 
 .remove {
@@ -254,14 +265,38 @@ h3 {
 }
 
 footer {
-  margin: 0 40px;
+  margin: 0;
+  padding: 10px 40px 0;
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  align-items: flex-end;
+  position: relative;
+  bottom: 0;
+  background-image: linear-gradient(to right, transparent 80%, darkslategray);
+  text-align: right;
+}
+
+footer p {
+  font-size: 1.8rem;
+  display: inline-block;
+  margin: 0;
+  color: white;
+}
+
+footer p:last-of-type {
+  margin: 5px 0 10px;
 }
 
 a {
   text-decoration: none;
   color: whitesmoke;
+  transition: all 200ms ease;
+}
+
+a:hover,
+a:focus {
+  color: #d4a269;
+  /* text-shadow: 0 0 3px black; */
 }
 
 .center {
@@ -310,14 +345,5 @@ a {
     left: 7px;
   }
 
-  ::-webkit-input-placeholder {
-    color: white;
-    /* opacity: 0.9; */
-  }
-
-  ::-ms-input-placeholder {
-    color: white;
-    /* opacity: 0.9; */
-  }
 }
 
