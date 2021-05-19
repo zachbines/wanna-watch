@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import './styles/App.css';
 import firebase from './firebase.js';
-// import WatchList from './WatchList.js';
+import Login from './Login.js';
 import UserCards from './UserListCard.js';
 import TvShowInput from './TvShowInput.js';
 import { WatchList } from './TvShowInput.js';
@@ -30,77 +30,54 @@ function App() {
   const [userName, setUserName] = useState(false);
   //state for whether the user is logged in or not
   const [loggedIn, setLoggedIn] = useState(false);
-  // state for the array of shows
+  // state for the current array of shows being created
   const [shows, setShows] = useState([]);
-  // should ne the state of the dbData
-  const [dbData, setDbData] = useState([]);
-  // state for the users choice input
-  const [showInput, setShowInput] = useState('');
-  //state for the done button
-  const [done, setDone] = useState(false);
-  console.log(done);
+  // data stored in the database
+  const [dbData, setDbUserData] = useState([]);
+  
+  // state to track how many entries the user has inputted
+  const [entries, setEntries] = useState(0);
   // when user "logs in" the database will be queried to check for that 
 
   useEffect(
     () => {
       dbRef.on('value', (snapshot) => {
-        const dbDataArray = [];
-        const data = snapshot.val();
-        console.log(data);
-        if (data !== null || data !== undefined) {
-          for (let key in data) {
-            console.log(`working with userKey ${key}`)
-            const { userName, shows } = data[key];
+        const newDbDataArray = [];
+        const dbDataObject = snapshot.val();
+        console.log(dbDataObject);
+        if (dbDataObject !== null || dbDataObject !== undefined) {
+          for (let key in dbDataObject) {
+            const { userName, shows } = dbDataObject[key];
             // loop through database go into every object and extract key values
             let userObj = { name: userName, shows: shows, userKey: key };
-            dbDataArray.push(userObj);
-            console.log(userObj);
+            newDbDataArray.push(userObj);
           }
-          setDbData(dbDataArray);
+          setDbUserData(newDbDataArray);
         }
-        console.log("data from database", dbDataArray);
+        console.log("data from database", newDbDataArray);
       });
     },
     []
   )
 
-  const [entries, setEntries] = useState(0);
-
-  // useEffect(
-  //   () => {
-  //     if (entries === 5 ) {
-
-  //     }
-  //   }
-  // )
-
-  const handleRemoveItem = (i) => {
-    const newList = shows.filter((x, index) => index !== i)
+  const removeListItem = (i) => {
+    const showsCopy = [...shows];
+    const newList = showsCopy.filter((x, index) => index !== i)
     setShows(newList);
     setEntries(entries - 1);
   }
 
-  const deleteCard = (card) => {
-    dbRef.child(card).remove();
-  }
-
-  //USER CHOICE INPUT HANDLERS ------------- 
-  // user show choice change handler
-  const handleNewChoice = (event) => {
-    let currentChoice = event.target.value;
-    setShowInput(currentChoice);
-    // console.log(currentChoice);
-  }
   // everytime the add button is clicked:
   //  setShows is updated
-  const handleAddClick = () => {
-
+  const handleAddClick = (showInput, setShowInput) => {
     // update shows array 
-    const newShows = shows.concat(showInput);
-    setShows(newShows);
-    setEntries(entries + 1);
-    console.log(newShows);
-    setShowInput('')
+    if (showInput) {
+      const newShows = shows.concat(showInput);
+      setShows(newShows);
+      setEntries(entries + 1);
+      console.log(newShows);
+      setShowInput('');
+    }
   }
 
   // done button handler
@@ -108,9 +85,9 @@ function App() {
     event.preventDefault();
     // console.log(userProfile);
     dbRef.push({ userName, shows });
-    setDone(true);
     setLoggedIn(false);
-    // this give users/jdhfdkajaj/shows+userName as siblings
+    setShows([]);
+    setEntries(0);
   }
 
   // USERNAME CHANGE/LOGIN CLICK HANDLERS -------
@@ -122,8 +99,8 @@ function App() {
   }
 
   // login button handler
-  const handleLoginClick = () => {
-    setDone(false);
+  const handleLoginClick = (event) => {
+    event.preventDefault();
     setLoggedIn(true);
     console.log(userName);
     // handle the name appending to the page
@@ -131,40 +108,30 @@ function App() {
 
   return (
     <div className="App">
-      <div className="wrapper ">
-        <h1>wannaWatch</h1>
+      <div className="wrapper">
+        <header >
+          <h1 className="fade-in">wannaWatch</h1>
+          {!loggedIn 
+          ? <Login 
+            handleLoginClick={handleLoginClick} 
+            handleNameChange={handleNameChange}
+          /> : ""}
+        </header>
 
-        {!loggedIn ?
-          <form action="submit" className="user-login" onSubmit={handleLoginClick}>
-            <label htmlFor="username" className="sr-only">What's your name?</label>
-            {/* put onChange, and value in input
-        onChange is a function which sets the userInput name,
-        value={userName} */}
-            <input type="text" id="username" placeholder="Type your name here" onChange={handleNameChange} required />
-            {/* onCLick = function which sets the state of Login to true. this renders the user-choice input on the screen and hides this form */}
-            <button className="button login" >Login</button>
-          </form> : ""}
-
-        {/* TvShowInput.js  make into new componet, 
-      maybe include WatchList in that component as well */}
         {loggedIn && <TvShowInput 
-          userChoice={showInput}
           entries={entries}
-          handleNewChoice={handleNewChoice}
-          add={handleAddClick}
+          addShow={handleAddClick}
         /> }
 
         {loggedIn && <WatchList 
           entries={entries}
           userName={userName}
           showsList={shows}
-          handleRemoveItem={handleRemoveItem}
+          removeShow={removeListItem}
           handleDoneClick={handleDoneClick}
         />}
         
-        
-        {/* user Card */}
-        <UserCards dbData={dbData} deleteCard={deleteCard} />
+        <UserCards dbData={dbData} database={dbRef} />
       </div>
     </div>
   );

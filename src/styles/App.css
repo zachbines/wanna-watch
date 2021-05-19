@@ -15,7 +15,12 @@ html {
 }
 body {
   font-size: 2rem;
+  background-image: linear-gradient(13deg, rgba(199, 191, 188, 0.473) 5%, rgba(155, 177, 168, 0.8) 58%, rgba(161, 81, 27, 0.6) 80%);
+}
 
+ul {
+  margin: 0;
+  padding: 0;
 }
 
 li {
@@ -25,25 +30,46 @@ li {
     background-image: linear-gradient(13deg, rgba(199, 191, 188, 0.473) 5%, rgba(155, 177, 168, 0.8) 58%, rgba(161, 81, 27, 0.6) 80%), url(./tv2.jpg);
     background-size: cover;
     background-position: top;
-    background-repeat: no-repeat;   
+    background-repeat: no-repeat;  
+    min-height: 100vh; 
 }
 
 .wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     max-width: 1440px;
     width: 80%;
-    min-height: 100vh;
-    margin: 0 auto;  
+    margin: 0 auto;
 }
 
- .watch-list,
+header {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+}
+
  .user-list {
   padding: 0;
   margin: 0;
   width: 90%;
+}
+
+.user-input {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.input-container,
+.watch-list {
+  width: 40%;
+  min-width: 320px;
+  position: relative;
+}
+
+.input-container input {
+  width: 100%;
+  padding: 15px;
+  border-radius: 3px 25px 25px 3px;
 }
 
 .list-item-container li {
@@ -61,7 +87,7 @@ li {
 h1 {
   font-family: 'Comfortaa', cursive;
   font-size: 10rem;
-  margin: 10px 0;
+  margin: 170px 0 10px;
   color: whitesmoke;
 }
 
@@ -100,30 +126,14 @@ input {
   box-shadow: 0 0 10px rgba(212, 214, 213, 0.5);
 }
 
-.user-input {
-  width: 50%;
-  display: flex;
-  justify-content: center;
-}
-
-.user-input input {
-  width: 100%;
-  padding: 15px;
-  border-radius: 3px 25px 25px 3px;
-}
-
-/* to position buttons properly */
-.input-container {
-  width: 500px;
-  position: relative;
-}
-
 .watch-list-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  /* width: 60%; */
 }
+
 
 .list-item-container {
   padding: 0;
@@ -138,12 +148,13 @@ button {
   border-radius: 25px 3px 25px 3px;
   margin: 15px;
   color: #998f73;
-  transition: box-shadow 300ms ease;
+  transition: all 100ms ease;
 }
 
 button:hover,
 button:focus {
   box-shadow: 0px 0px 6px #0000008c;
+  background-color: rgb(228, 218, 195);
 }
 
 
@@ -174,6 +185,7 @@ button:focus {
   display: flex;
   flex-wrap: wrap;
   max-width: 100%;
+  margin-top: 50px;
 }
 
 .user-list-card {
@@ -183,8 +195,10 @@ button:focus {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: whitesmoke;
+  background-color: #ebe8d6;
+  color: darkslategray;
   margin: 20px;
+  padding: 20px;
   box-shadow: 0px 0px 10px #0000008c;
   position: relative;
 }
@@ -194,20 +208,52 @@ button:focus {
   font-size: 3rem;
   font-style: normal;
   position: absolute;
-  top: 0px;
-  right: 10px;
+  top: 5px;
+  right: 15px;
   color: darkslategray;
   cursor: pointer;
 }
 
-.h3 {
-  margin: 10px;
+h3 {
+  margin: 20px 0 10px;
+  /* width: 70%; */
+  text-align: center;
 }
 
-.user-list-card li {
+.user-list li {
   margin: 10px;
+  position: relative;
+}
+
+.user-list li::after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 3px;
+  bottom: -3px;
+  width: 80%;
+  height: 1px;
+  background-color: darkslategray;
 }
 
 .center {
   text-align: center;
 }
+
+.fade-in {
+  opacity: 1;
+  animation: fade-in 1s ease-in-out 1;
+}
+
+@keyframes fade-in {
+  0% { 
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+

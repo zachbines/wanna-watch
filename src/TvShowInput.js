@@ -1,31 +1,43 @@
+import {useState} from 'react';
 
-const TvShowInput = ({ userChoice, handleNewChoice, entries, add }) => {
+const TvShowInput = ({entries, addShow }) => {
+  // state for the users choice input
+  const [showInput, setShowInput] = useState('');
+  
+  const handleNewChoice = (event) => {
+    const currentChoice = event.target.value;
+    setShowInput(currentChoice);
+  }
 
   return (
-    <div className="user-input">
-      <label htmlFor="user-choice" className="sr-only">What shows would you like to watch?</label>
+    <section className="user-input">
       <div className="input-container">
+        <label htmlFor="user-choice" className="sr-only">What shows would you like to watch?</label>
         <input
-          className={entries === 5 && "center"}
+          className={entries === 5 ? "center" : ''}
           type="text"
           id="user-choice"
-          value={userChoice}
+          value={showInput}
           onChange={handleNewChoice}
           placeholder={entries === 5 ? "Click DONE to save your list" : "whatchaWannaWatch?"}
           disabled={entries === 5 ? true : false}
         />
-        {entries < 5 && <button className='button add' onClick={add}>add</button>}
-        {console.log(entries)}
+        {entries < 5 && <button className='button add' onClick={() => {addShow(showInput, setShowInput)}}>add</button>}
       </div>
-    </div>
+    </section>
   )
 }
 
-export const WatchList = (
-  {userName, handleRemoveItem, handleDoneClick, showsList, entries}) => {
-  console.log(entries);
+export const WatchList = (props) => {
+  const { 
+    userName, 
+    removeShow, 
+    handleDoneClick, 
+    showsList, 
+    entries } = props;
+
   return (
-    <div className="watch-list-container">
+    <section className="watch-list-container">
       <h2>{userName}'s Watch List</h2>
       <div className="watch-list">
         {
@@ -34,7 +46,8 @@ export const WatchList = (
               <ul className="list-item-container">
 
                 <li key={i}>{show}
-                  <button className="remove" onClick={() => { handleRemoveItem(i) }}>remove</button>
+                  <button className="remove" onClick={() => { removeShow(i) }}>remove</button>
+            
                 </li>
               </ul>
             )
@@ -42,7 +55,7 @@ export const WatchList = (
         }
       </div>
       {entries > 0 && <button className="button done" onClick={handleDoneClick}>DONE</button>}
-    </div> 
+    </section> 
   )
 }
 

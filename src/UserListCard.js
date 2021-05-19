@@ -1,31 +1,39 @@
 import './styles/App.css';
-// import { }
+import { useState } from 'react';
 
-const UserListCard = ({ dbData, deleteCard }) => {
-  console.log(dbData);
-
+const UserListCard = ({ dbData, database }) => {
+  // console.log(dbData);
+  const deleteCard = (card) => {
+      database.child(card).remove();
+      
+  }
  // printing from database 
   return (
-    <div className="stored-lists">
+    <ul className="stored-lists">
         {
           dbData.map((user) => {
-            console.log(user)
+
             return (
-              <div key={user.userKey} className="user-list-card">
-                <i className="delete" onClick={() => { deleteCard(user.userKey) }}>x</i>
+              <li key={user.userKey} 
+                className="user-list-card fade-in">
+                <div 
+                className="delete" 
+                onClick={() => {deleteCard(user.userKey)}}
+                >x</div>
                 <h3>{user.name}'s Watch List</h3>
                 <ul className="user-list">
-                  {user.shows.map((show, i) => {
+                  {
+                  user.shows.map((show, i) => {
+
                     return <li key={i}>{show}</li>
                   })
                   }
                 </ul>
-              </div>
+              </li>
             )
-          }
-          )
+          })       
         }
-    </div>
+    </ul>
   )
 
 }
