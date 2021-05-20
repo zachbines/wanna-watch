@@ -10,7 +10,7 @@ const Login = ({handleLoginClick, handleNameChange}) => {
         value={userName} */}
       <input type="text" id="username" placeholder="Type your name here" className="center" onChange={handleNameChange} required />
       {/* onCLick = function which sets the state of Login to true. this renders the user-choice input on the screen and hides this form */}
-      <button className="button login" >Login</button>
+      <button className="button">Login</button>
     </form>
   )
 }

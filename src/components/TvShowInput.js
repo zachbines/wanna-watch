@@ -33,7 +33,7 @@ const TvShowInput = ({entries, addShow }) => {
           ref={inputElement}
           autoFocus
         />
-        {entries < 5 && <button className='button add' onClick={() => {addShow(showInput, setShowInput)}}>add</button>}
+        {entries < 5 && <button className='button add-button' onClick={() => {addShow(showInput, setShowInput)}}>add</button>}
       </div>
     </section>
   )
@@ -60,7 +60,7 @@ export const WatchList = (props) => {
               <li key={i} className="list-item-container">
 
                 <div>{show}
-                  <button className="remove" onClick={() => { removeShow(i) }}>remove</button>
+                  <button className="remove-button" onClick={() => { removeShow(i) }}>remove</button>
             
                 </div>
               </li>
@@ -68,7 +68,7 @@ export const WatchList = (props) => {
           })
         }
       </ul>
-      {entries > 0 && <button className="button save" onClick={saveUserList}><span>SAVE</span></button>}
+      {entries > 0 && <button className="button save-button" onClick={saveUserList}><span>SAVE</span></button>}
     </section> 
   )
 }

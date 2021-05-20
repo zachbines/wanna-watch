@@ -18,6 +18,8 @@ body {
   background-image: linear-gradient(13deg, rgba(199, 191, 188, 0.473) 5%, rgba(155, 177, 168, 0.8) 58%, rgba(161, 81, 27, 0.6) 80%);
 }
 
+/* stripping styles */
+
 ul {
   margin: 0;
   padding: 0;
@@ -28,30 +30,33 @@ li {
 }
 
 .App {
-    background-image: linear-gradient(13deg, rgba(199, 191, 188, 0.473) 5%, rgba(155, 177, 168, 0.8) 58%, rgba(161, 81, 27, 0.6) 80%), url(./tv2.jpg);
-    background-size: cover;
-    background-position: top;
-    background-repeat: no-repeat;  
-    
+  background-image: linear-gradient(13deg, rgba(199, 191, 188, 0.473) 5%, rgba(155, 177, 168, 0.8) 58%, rgba(161, 81, 27, 0.6) 80%), url(./tv2.jpg);
+  background-size: cover;
+  background-position: top;
+  background-repeat: no-repeat;    
 }
 
 .wrapper {
-    max-width: 1440px;
-    width: 80%;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh; 
-    padding-top: 150px;
+  max-width: 1440px;
+  width: 80%;
+  margin: 0 auto;
+}
+  
+.page-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; 
+  padding-top: 150px;
+  
 }
 
 header {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 h1 {
@@ -68,14 +73,9 @@ h1 {
   width: 280px;
 }
 
- .user-list {
-  padding: 0;
-  margin: 0;
-  width: 90%;
-}
-
 .user-input,
-.watch-list-container {
+.watch-list-container,
+form {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -102,6 +102,7 @@ h1 {
   padding: 0;
   margin: 0;
   background-color: whitesmoke;
+  color: rgb(31, 53, 53);
   padding: 15px 15px 15px 25px;
   margin: 10px 0;
   border: 1px solid darkgray;
@@ -131,12 +132,6 @@ h2::before {
   height: 1px;
 }
 
-form {
- display: flex;
- flex-direction: column;
- align-items: center;
-}
-
 input {
   border: 1px solid whitesmoke;
   border-radius: 3px;
@@ -146,18 +141,16 @@ input {
   box-shadow: 0 0 10px rgba(212, 214, 213, 0.5);
 } 
 
+/* for mobile phones */
 ::-webkit-input-placeholder {
   color: white;
   opacity: 0.8;
 }
-
 ::-ms-input-placeholder {
   color: white;
   opacity: 0.8;
 }
 
-
-/* this was a ul, now li */
 .list-item-container {
   padding: 0;
   position: relative;
@@ -171,20 +164,20 @@ button {
   border-radius: 25px 3px 25px 3px;
   margin: 15px;
   color: #998f73;
-  transition: all 100ms ease;
   background-color: whitesmoke;
-  -webkit-appearance:none;
-  opacity: 1
+  opacity: 1;
+  transition: all 100ms ease;
 }
 
 button:hover,
 button:focus {
   box-shadow: 0px 0px 6px #0000008c;
-  background-color: rgb(228, 218, 195);
+  background-color: #f3b773;
+  color: white;
 }
 
-.add, 
-.remove {
+.add-button, 
+.remove-button {
   border-radius: 25px;
   display: inline-block;
   margin: 5px;
@@ -194,7 +187,7 @@ button:focus {
   right: 5px;
 }
 
-.remove {
+.remove-button {
   font-size: 2rem;
   background-image: linear-gradient(13deg, rgba(199, 191, 188, 0.473) 5%, rgba(155, 177, 168, 0.8) 58%, rgba(119, 84, 61, 0.3) 80%);
   top: 5px;
@@ -205,7 +198,7 @@ button:focus {
   box-shadow: 0px 0px 10px #0000008c;
 }
 
-.save {
+.save-button {
  font-size: 2.3rem;
  padding-bottom: 8px;
 }
@@ -232,7 +225,20 @@ button:focus {
   position: relative;
 }
 
+.user-list {
+  padding: 0;
+  margin: 0;
+  width: 90%;
+}
+
 .delete {
+  /* stripping styles from other buttons */
+  border: 0;
+  padding: 0;
+  border-radius: 0;
+  margin: 0;
+  background: none;
+
   text-transform: lowercase;
   font-size: 3rem;
   font-style: normal;
@@ -242,6 +248,13 @@ button:focus {
   color: darkslategray;
   cursor: pointer;
 }
+
+.delete:hover,
+.delete:focus {
+  box-shadow: none;
+  background-color: transparent;
+  color: darkslategray;
+}   
 
 h3 {
   margin: 20px 0 10px;
@@ -273,7 +286,7 @@ footer {
   align-items: flex-end;
   position: relative;
   bottom: 0;
-  background-image: linear-gradient(to right, transparent 80%, darkslategray);
+  background-image: linear-gradient(to bottom right, transparent 40%, darkslategray);
   text-align: right;
 }
 
@@ -289,7 +302,6 @@ footer p:last-of-type {
 }
 
 a {
-  text-decoration: none;
   color: whitesmoke;
   transition: all 200ms ease;
 }
@@ -297,8 +309,6 @@ a {
 a:hover,
 a:focus {
   color: #f1a957;
-  /* color: #a8c5c0; */
-  /* text-shadow: 0 0 3px black; */
 }
 
 .center {
@@ -321,6 +331,7 @@ a:focus {
     transform: translateY(0px);
   }
 }
+
 
 @media (max-width: 760px) {
 

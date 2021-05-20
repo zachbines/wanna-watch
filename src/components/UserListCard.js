@@ -15,10 +15,10 @@ const UserListCard = ({ dbData, database }) => {
             return (
               <li key={user.userKey} 
                 className="user-list-card fade-in">
-                <div 
+                <button 
                 className="delete" 
                 onClick={() => {deleteCard(user.userKey)}}
-                >x</div>
+                >x</button>
                 { user.name.lastIndexOf('s') !== (user.name.length - 1) ? 
                 <h3>{user.name}'s Watch List</h3> 
                 : <h3>{user.name}' Watch List</h3>

@@ -96,7 +96,7 @@ function App() {
 
   return (
     <div className="App">
-      <div className="wrapper">
+      <div className="wrapper page-container">
         <header >
           <h1 className="fade-in">wanna<span>Watch</span></h1>
           {!loggedIn 
@@ -123,7 +123,7 @@ function App() {
       </div>
       <footer>
         <p>Created at <a href="http://junocollege.com">Juno</a> College</p>
-        <p>Background courtesy of <a href="https://wallpaperaccess.com/">https://wallpaperaccess.com/</a></p>
+        <p>Background image courtesy of <a href="https://wallpaperaccess.com/">https://wallpaperaccess.com/</a></p>
       </footer>
     </div>
   );
