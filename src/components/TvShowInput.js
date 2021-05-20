@@ -1,9 +1,17 @@
 import '../styles/App.css'
-import {useState} from 'react';
+import {useState, useRef, useEffect } from 'react';
 
 const TvShowInput = ({entries, addShow }) => {
   // state for the users choice input
   const [showInput, setShowInput] = useState('');
+  const inputElement = useRef(null);
+
+  useEffect(
+    () => { 
+      if (inputElement.current) {
+        inputElement.current.focus();
+      }
+    }, [showInput]);
   
   const handleNewChoice = (event) => {
     const currentChoice = event.target.value;
@@ -22,6 +30,8 @@ const TvShowInput = ({entries, addShow }) => {
           onChange={handleNewChoice}
           placeholder={entries === 5 ? "Click SAVE to save your list" : "whatcha wanna watch?"}
           disabled={entries === 5 ? true : false}
+          ref={inputElement}
+          autoFocus
         />
         {entries < 5 && <button className='button add' onClick={() => {addShow(showInput, setShowInput)}}>add</button>}
       </div>

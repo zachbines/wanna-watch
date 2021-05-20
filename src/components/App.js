@@ -21,7 +21,6 @@ function App() {
   const [shows, setShows] = useState([]);
   // data stored in the database
   const [dbData, setDbUserData] = useState([]);
-  
   // state to track how many entries the user has inputted
   const [entries, setEntries] = useState(0);
   // when user "logs in" the database will be queried to check for that
@@ -124,7 +123,7 @@ function App() {
       </div>
       <footer>
         <p>Created at <a href="http://junocollege.com">Juno</a> College</p>
-        <p>Background cortesy of <a href="https://wallpaperaccess.com/">https://wallpaperaccess.com/</a></p>
+        <p>Background courtesy of <a href="https://wallpaperaccess.com/">https://wallpaperaccess.com/</a></p>
       </footer>
     </div>
   );

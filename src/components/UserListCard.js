@@ -28,7 +28,7 @@ const UserListCard = ({ dbData, database }) => {
                   {
                   user.shows.map((show, i) => {
 
-                    return <li key={i}>{show}</li>
+                    return <li key={i}>{i + 1}. {show}</li>
                   })
                   }
                 </ul>
