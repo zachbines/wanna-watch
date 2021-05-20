@@ -7,11 +7,9 @@ import TvShowInput from './TvShowInput.js';
 import { WatchList } from './TvShowInput.js';
 
 
-// remember to "control" all your inputs (i.e.add an onChange event and tie their values to state)
-
 // storing a reference to the database
-
 const dbRef = firebase.database().ref('/users');
+
 function App() { 
   // state for userName
   const [userName, setUserName] = useState(false);
@@ -20,17 +18,17 @@ function App() {
   // state for the current array of shows being created
   const [shows, setShows] = useState([]);
   // data stored in the database
-  const [dbData, setDbUserData] = useState([]);
+  const [dbUserData, setDbUserData] = useState([]);
   // state to track how many entries the user has inputted
   const [entries, setEntries] = useState(0);
-  // when user "logs in" the database will be queried to check for that
 
+  // getting the data stored in the database, saving it in state
   useEffect(
     () => {
       dbRef.on('value', (snapshot) => {
         const newDbDataArray = [];
         const dbDataObject = snapshot.val();
-        console.log(dbDataObject);
+
         if (dbDataObject !== null || dbDataObject !== undefined) {
           for (let key in dbDataObject) {
             const { userName, shows } = dbDataObject[key];
@@ -40,12 +38,13 @@ function App() {
           }
           setDbUserData(newDbDataArray);
         }
-        console.log("data from database", newDbDataArray);
       });
-    },
-    []
+    },[]
   )
 
+  // filtering through existing shows and removing the chosen one
+    // saving it in new array, updating state
+    //subtracting the number of entries, updating state
   const removeListItem = (i) => {
     const showsCopy = [...shows];
     const newList = showsCopy.filter((x, index) => index !== i)
@@ -53,31 +52,31 @@ function App() {
     setEntries(entries - 1);
   }
 
-  // everytime the add button is clicked:
-  //  setShows is updated
+  
+  // adding a new show to the array, updating state
+    //adding an entry, updating state
+    //clearing input state
   const handleAddClick = (showInput, setShowInput) => {
-    // update shows array 
     if (showInput) {
       const newShows = shows.concat(showInput);
       setShows(newShows);
       setEntries(entries + 1);
-      console.log(newShows);
       setShowInput('');
     }
   }
 
-  // done button handler
+  // saving user list, pushing it to the database
+    // resetting states
   const handleSaveClick = (event) => {
     event.preventDefault();
-    // console.log(userProfile);
+
     dbRef.push({ userName, shows });
     setLoggedIn(false);
     setShows([]);
     setEntries(0);
   }
 
-  // USERNAME CHANGE/LOGIN CLICK HANDLERS -------
-  // username change handler
+  // username change handler, updating state
   const handleNameChange = (event) => {
     let currentUser = event.target.value;
 
@@ -87,11 +86,10 @@ function App() {
     }
   }
   // login button handler
+    // updating loggedIn state
   const handleLoginClick = (event) => {
     event.preventDefault();
     setLoggedIn(true);
-    console.log(userName);
-    // handle the name appending to the page
   }
 
   return (
@@ -119,7 +117,7 @@ function App() {
           saveUserList={handleSaveClick}
         />}
         
-        <UserCards dbData={dbData} database={dbRef} />
+        <UserCards dbData={dbUserData} database={dbRef} />
       </div>
       <footer>
         <p>Created at <a href="http://junocollege.com">Juno</a> College</p>

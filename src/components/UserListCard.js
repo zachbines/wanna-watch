@@ -6,28 +6,22 @@ const UserListCard = ({ dbData, database }) => {
       database.child(card).remove();
       
   }
- // printing from database 
+ // printing all saved user cards from database 
   return (
     <ul className="stored-lists">
         {
           dbData.map((user) => {
 
             return (
-              <li key={user.userKey} 
-                className="user-list-card fade-in">
-                <button 
-                className="delete" 
-                onClick={() => {deleteCard(user.userKey)}}
-                >x</button>
+              <li key={user.userKey} className="user-list-card fade-in">
+                <button className="delete" onClick={() => {deleteCard(user.userKey)}}>x</button>
+                {/* if username ends with s, only add ' to the end */}
                 { user.name.lastIndexOf('s') !== (user.name.length - 1) ? 
                 <h3>{user.name}'s Watch List</h3> 
-                : <h3>{user.name}' Watch List</h3>
-                }
-                
+                : <h3>{user.name}' Watch List</h3>}
                 <ul className="user-list">
                   {
                   user.shows.map((show, i) => {
-
                     return <li key={i}>{i + 1}. {show}</li>
                   })
                   }

@@ -1,17 +1,22 @@
 import '../styles/App.css'
 import {useState, useRef, useEffect } from 'react';
 
-const TvShowInput = ({entries, addShow }) => {
+// this module contains two components 
+
+const TvShowInput = ({ entries, addShow }) => {
   // state for the users choice input
   const [showInput, setShowInput] = useState('');
+  //useRef to control the input re-focussing
   const inputElement = useRef(null);
 
+  // this useEffect ensures the input with re-focus each time the user adds an entry
   useEffect(
     () => { 
       if (inputElement.current) {
         inputElement.current.focus();
       }
     }, [showInput]);
+  
   
   const handleNewChoice = (event) => {
     const currentChoice = event.target.value;
@@ -31,7 +36,7 @@ const TvShowInput = ({entries, addShow }) => {
           placeholder={entries === 5 ? "Click SAVE to save your list" : "whatcha wanna watch?"}
           disabled={entries === 5 ? true : false}
           ref={inputElement}
-          autoFocus
+          autoComplete="off"
         />
         {entries < 5 && <button className='button add-button' onClick={() => {addShow(showInput, setShowInput)}}>add</button>}
       </div>
@@ -39,6 +44,7 @@ const TvShowInput = ({entries, addShow }) => {
   )
 }
 
+// this component is in charge of printing the current working user list as it's being entered
 export const WatchList = (props) => {
   const { 
     userName, 
@@ -58,17 +64,16 @@ export const WatchList = (props) => {
           showsList.map((show, i) => {
             return (
               <li key={i} className="list-item-container">
-
                 <div>{show}
                   <button className="remove-button" onClick={() => { removeShow(i) }}>remove</button>
-            
                 </div>
               </li>
             )
           })
         }
       </ul>
-      {entries > 0 && <button className="button save-button" onClick={saveUserList}><span>SAVE</span></button>}
+      {entries > 0 && 
+      <button className="button save-button" onClick={saveUserList}>SAVE</button>}
     </section> 
   )
 }
