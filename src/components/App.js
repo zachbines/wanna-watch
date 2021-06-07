@@ -127,5 +127,4 @@ function App() {
   );
 }
 
-console.log('check');
 export default App;
