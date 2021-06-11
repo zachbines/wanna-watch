@@ -1,70 +1,26 @@
-# Getting Started with Create React App
+# Hello and Welcome to wannaWatch!
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Everybody has a TV show recommendation these days.. How are we supposed to keep all these shows in our tiny little brains!? 
 
-## Available Scripts
+## FEAR NOT
 
-In the project directory, you can run:
+The app is pretty simple: 
 
-### `npm start`
+Type in your name,
+throw in a few shows you'd like to remind yourself, or a friend, to watch in the future.  
+wannaWatch will save those shows on a post it for you every time you come back to the page until you'd like to trash it.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Never forget what you wanna watch or just snoop to see what your friends or loved ones wanna watch!
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Origins
 
-### `npm test`
+The initial reason I built this app was to solve a real life problem: It's hard for me and my partner to agree on a show to watch. Although I'm happy with how it turned out, there is more functionality I'd like top add to really make this app come to life. 
+### Namely:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Adding in Authoriztion so that multiple people can share the same wannaWatch account to properly compare watch lists. 
+  - maybe have the app check for similarities between lists and prompt the user(s) about what folks should watch together
 
-### `npm run build`
+- Adding an API call to the input functionality so that a user can read a little about shows before locking it in. 
+    - when the user saves a list, the Shows will carry with them information about what streaming services they can watch it on, for further convenience. 
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Excited to bring this app to the next level! Thanks for checking it out 😃
