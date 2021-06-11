@@ -1,4 +1,4 @@
-# Hello and Welcome to wannaWatch!
+# Hello and welcome to wannaWatch!
 
 Everybody has a TV show recommendation these days.. How are we supposed to keep all these shows in our tiny little brains!? 
 
