@@ -34,7 +34,7 @@ function App() {
             const { userName, shows } = dbDataObject[key];
             // loop through database go into every object and extract key values
             let userObj = { name: userName, shows: shows, userKey: key };
-            newDbDataArray.push(userObj);
+            newDbDataArray.unshift(userObj);
           }
           setDbUserData(newDbDataArray);
         }
@@ -93,30 +93,33 @@ function App() {
 
   return (
     <div className="App">
-      <div className="wrapper page-container">
-        <header >
-          <h1 className="fade-in">wanna<span>Watch</span></h1>
-          {!loggedIn 
-          && <Login 
-            handleLoginClick={handleLoginClick} 
-            handleNameChange={handleNameChange}
-          />}
-        </header>
+      <div className="wrapper page-container"> 
+          <header >
+            <h1 className="fade-in">wanna<span>Watch</span></h1>
+            {!loggedIn && 
+              <Login
+                handleLoginClick={handleLoginClick}
+                handleNameChange={handleNameChange}
+              />}
+          </header>
+          <main>
+            {loggedIn && 
+            <TvShowInput 
+              entries={entries}
+              addShow={handleAddClick}
+            /> }
 
-        {loggedIn && <TvShowInput 
-          entries={entries}
-          addShow={handleAddClick}
-        /> }
-
-        {loggedIn && <WatchList 
-          entries={entries}
-          userName={userName}
-          showsList={shows}
-          removeShow={removeListItem}
-          saveUserList={handleSaveClick}
-        />}
-        
-        <UserCards dbData={dbUserData} database={dbRef} />
+            {loggedIn && 
+            <WatchList 
+              entries={entries}
+              userName={userName}
+              showsList={shows}
+              removeShow={removeListItem}
+              saveUserList={handleSaveClick}
+            />}
+            
+            <UserCards dbData={dbUserData} database={dbRef} />
+          </main>
       </div>
       <footer>
         <p>Created at <a href="http://junocollege.com">Juno</a> College</p>

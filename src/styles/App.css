@@ -72,6 +72,10 @@ h1 {
   width: 280px;
 }
 
+main {
+  width: 100%;
+}
+
 .user-input,
 .watch-list-container,
 form {
