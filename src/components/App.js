@@ -52,7 +52,6 @@ function App() {
     setEntries(entries - 1);
   }
 
-  
   // adding a new show to the array, updating state
     //adding an entry, updating state
     //clearing input state
@@ -98,10 +97,10 @@ function App() {
         <header >
           <h1 className="fade-in">wanna<span>Watch</span></h1>
           {!loggedIn 
-          ? <Login 
+          && <Login 
             handleLoginClick={handleLoginClick} 
             handleNameChange={handleNameChange}
-          /> : ""}
+          />}
         </header>
 
         {loggedIn && <TvShowInput 

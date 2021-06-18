@@ -14,7 +14,7 @@ const UserListCard = ({ dbData, database }) => {
 
             return (
               <li key={user.userKey} className="user-list-card fade-in">
-                <button className="delete" onClick={() => {deleteCard(user.userKey)}}>x</button>
+                <button aria-label="Delete" className="delete" onClick={() => {deleteCard(user.userKey)}}>x</button>
                 {/* if username ends with s, only add ' to the end */}
                 { user.name.lastIndexOf('s') !== (user.name.length - 1) ? 
                 <h3>{user.name}'s Watch List</h3> 
